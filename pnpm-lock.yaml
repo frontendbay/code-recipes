@@ -17,6 +17,9 @@ dependencies:
   '@astrojs/tailwind':
     specifier: ^5.1.0
     version: 5.1.0(astro@4.14.4)(tailwindcss@3.4.10)
+  '@stackblitz/sdk':
+    specifier: ^1.11.0
+    version: 1.11.0
   astro:
     specifier: ^4.10.2
     version: 4.14.4(typescript@5.5.4)
@@ -1217,6 +1220,10 @@ packages:
     resolution: {integrity: sha512-KyHIIpKNaT20FtFPFjCQB5WVSTpLR/n+jQXhWHWVUMm9MaOaG9BGOG0MSyt7yA4+Lm+4c9rTc03tt3nYzeYSfw==}
     dependencies:
       '@types/hast': 3.0.4
+    dev: false
+
+  /@stackblitz/sdk@1.11.0:
+    resolution: {integrity: sha512-DFQGANNkEZRzFk1/rDP6TcFdM82ycHE+zfl9C/M/jXlH68jiqHWHFMQURLELoD8koxvu/eW5uhg94NSAZlYrUQ==}
     dev: false
 
   /@types/acorn@4.0.6:

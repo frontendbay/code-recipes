@@ -1,0 +1,72 @@
+---
+title: Effect Logger
+description: A guide in my new Starlight docs site.
+---
+import LiveEditor from "../../../components/LiveEditor.astro"
+
+A component that logs a message to the console when it mounts and unmounts.
+
+### Live Code
+<LiveEditor project="effect-logger-wddnv8" />
+
+## Usage
+To use the EffectLogger component, simply import and render it within another component or your main application:
+
+```jsx
+import EffectLogger from './EffectLogger';
+
+function App() {
+  return (
+    <div>
+      <h1>My App</h1>
+      <EffectLogger />
+    </div>
+  );
+}
+```
+
+## Behavior
+
+1. **On Mount:** When the EffectLogger component is first rendered (mounted), it will log the message "Component mounted" to the console.
+2. **On Unmount:** When the EffectLogger component is removed from the DOM (unmounted), it will log the message "Component will unmount" to the console.
+
+## Key Concepts
+
+### useEffect Hook
+The useEffect hook is used to perform side effects in functional components. In this case, we're using it to log messages based on the component's lifecycle.
+```jsx
+CopyuseEffect(() => {
+  // Effect code
+  return () => {
+    // Cleanup code
+  };
+}, []);
+```
+
+- The first argument is a function that contains the effect code.
+- The function returned within the effect is the cleanup function.
+- The empty array `[]` as the second argument means this effect runs once on mount and the cleanup runs once on unmount.
+
+### Cleanup Function
+The cleanup function returned by the effect is crucial for handling any necessary cleanup when the component unmounts. This is where you would typically unsubscribe from subscriptions or cancel any ongoing asynchronous tasks.
+
+### Dependency Array
+The empty dependency array [] ensures that the effect only runs once when the component mounts, and the cleanup only runs once when it unmounts. If you needed the effect to re-run based on certain prop or state changes, you would include those dependencies in this array.
+
+## Learning Points
+
+- **Basic useEffect Usage:** This component demonstrates the fundamental usage of useEffect for running code on component mount and unmount.
+- **Component Lifecycle with Hooks:** It shows how to replicate componentDidMount and componentWillUnmount lifecycle methods using hooks in functional components.
+- **Cleanup Functions:** The implementation showcases how to properly clean up side effects using the function returned from useEffect.
+- **Effect Dependencies:** By using an empty dependency array, we ensure the effect runs only on mount and cleanup runs only on unmount.
+- **Logging for Debugging:** This pattern can be useful for debugging, helping developers track when components are mounting and unmounting in complex applications.
+
+## Best Practices
+
+- Always include cleanup functions when necessary to prevent memory leaks.
+- Be mindful of the dependency array to control when effects run.
+- Use console logging judiciously in production code; consider using a debug mode flag.
+
+## Conclusion
+
+The `EffectLogger` component serves as a simple yet effective demonstration of using `useEffect` for lifecycle-based logging in React. It provides a clear example of how to manage side effects and cleanup in functional components using React Hooks.
