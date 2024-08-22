@@ -6,3 +6,14 @@
 Add additional Tailwind styles to this file, for example with @layer:
 https://tailwindcss.com/docs/adding-custom-styles#using-css-and-layer
 */
+
+code {
+  font-family: "IBM Plex Mono", monospace;
+}
+
+
+@media (min-width: 72rem) {
+  .sl-container:where(.astro-krmprywi) {
+      margin: 0 auto;
+  }
+}
