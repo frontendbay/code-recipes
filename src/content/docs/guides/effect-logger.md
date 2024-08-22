@@ -1,5 +1,5 @@
 ---
-title: Example Guide
+title: Effect Logger
 description: A guide in my new Starlight docs site.
 ---
 
