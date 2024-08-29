@@ -46,6 +46,10 @@ export default defineConfig({
           autogenerate: { directory: "react/request-animation-recipes" },
         },
         {
+          label: "Testing Recipes",
+          autogenerate: { directory: "react/testing-recipes" },
+        },
+        {
           label: "Design Patterns",
           autogenerate: { directory: "react/design-patterns" },
         },
