@@ -38,6 +38,10 @@ export default defineConfig({
           autogenerate: { directory: "react/redux-recipes" },
         },
         {
+          label: "React Router Recipes",
+          autogenerate: { directory: "react/react-router-recipes" },
+        },
+        {
           label: "React Web Workers Recipes",
           autogenerate: { directory: "react/react-worker-recipes" },
         },
