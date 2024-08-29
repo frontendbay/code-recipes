@@ -2,27 +2,58 @@
 title: Effect Logger
 description: A guide in my new Starlight docs site.
 ---
-import LiveEditor from "../../../components/LiveEditor.astro"
+import LiveEditor from "../../../../components/LiveEditor.astro"
 
 A component that logs a message to the console when it mounts and unmounts.
 
-### Live Code
-<LiveEditor project="effect-logger-wddnv8" />
+## Live Preview
+<LiveEditor project="effect-logger-wddnv8" files="src/App.jsx,src/hooks/useEffectLogger.js"/>
 
+
+## Implementation
+```js
+import React, { useEffect, useState } from 'react';
+
+const useEffectLogger = () => {
+  const [message, setMessgae] = useState("")
+  useEffect(() => {
+    const msg = "Component mounted"
+    setMessgae(msg)
+    console.log(msg);
+
+    return () => {
+      const msg = "Component will unmount"
+      setMessgae(msg)
+      console.log(msg);
+  
+    };
+  }, []);
+
+  return message;
+};
+
+export default useEffectLogger;
+```
 ## Usage
 To use the EffectLogger component, simply import and render it within another component or your main application:
 
 ```jsx
-import EffectLogger from './EffectLogger';
+import { useState } from 'react'
+import useEffectLogger from "./hooks/useEffectLogger"
+import './App.css'
 
 function App() {
+  const message = useEffectLogger()
+  const [count, setCount] = useState(0)
+
   return (
-    <div>
-      <h1>My App</h1>
-      <EffectLogger />
+    <div id="App">
+      {message}
     </div>
-  );
+  )
 }
+
+export default App
 ```
 
 ## Behavior
@@ -35,7 +66,7 @@ function App() {
 ### useEffect Hook
 The useEffect hook is used to perform side effects in functional components. In this case, we're using it to log messages based on the component's lifecycle.
 ```jsx
-CopyuseEffect(() => {
+useEffect(() => {
   // Effect code
   return () => {
     // Cleanup code
