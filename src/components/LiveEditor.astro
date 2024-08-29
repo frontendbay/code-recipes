@@ -1,5 +1,5 @@
 ---
-const { project } = Astro.props;
+const { project, files } = Astro.props;
 ---
 
 <script>
@@ -14,12 +14,13 @@ class LiveEditor extends HTMLElement {
       `${this.dataset.project}`,
       {
         forceEmbedLayout: true,
-        openFile: "src/App.jsx,src/components/EffectLogger.jsx",
+        openFile: `${this.dataset.files}`,
         theme: "dark",
-        view: "default",
+        view: "editor",
         height: 600,
         hideExplorer: true,
         hideNavigation: true,
+        terminalHeight: 0
       }
     );
   }
@@ -28,7 +29,7 @@ class LiveEditor extends HTMLElement {
 customElements.define("live-editor", LiveEditor);
 </script>
 
-<live-editor data-project={project} class="block mb-4">
+<live-editor data-project={project} data-files={files} class="block mb-4">
   <div id="live-editor"></div>
 </live-editor>
 
