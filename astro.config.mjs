@@ -50,6 +50,10 @@ export default defineConfig({
           autogenerate: { directory: "react/testing-recipes" },
         },
         {
+          label: "Performance Optimization",
+          autogenerate: { directory: "react/performance-optimization" },
+        },
+        {
           label: "Design Patterns",
           autogenerate: { directory: "react/design-patterns" },
         },
