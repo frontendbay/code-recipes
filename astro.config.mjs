@@ -14,6 +14,10 @@ export default defineConfig({
       },
       sidebar: [
         {
+          label: "Getting Started",
+          autogenerate: { directory: "js/getting-started" },
+        },
+        {
           label: "Getting Strated",
           autogenerate: { directory: "react/getting-started" },
         },
@@ -74,6 +78,7 @@ export default defineConfig({
       components: {
         PageSidebar: "./src/components/starlight/PageSidebar.astro",
         MarkdownContent: "./src/components/starlight/MarkdownContent.astro",
+        Sidebar: "./src/components/starlight/Sidebar.astro",
       },
     }),
     tailwind({ applyBaseStyles: false }),
