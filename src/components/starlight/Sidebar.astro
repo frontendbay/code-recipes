@@ -1,0 +1,25 @@
+---
+import Default from '@astrojs/starlight/components/Sidebar.astro';
+import type { Props } from '@astrojs/starlight/props';
+import sidebarContext from "../../config/sidebar-context";
+import Dropdown from '../Dropdown.astro';
+
+const contextList = sidebarContext.map(item => item.name);
+const currentContext =  Astro.props.slug?.split("/")[0];
+const currentBase = `/${currentContext}/`
+
+// Setting the default value for select component
+const defaultValue = contextList.includes(currentContext) ? currentContext : contextList[0]
+
+// Filter our sidebar groups that do not include links to the selected currentBase.
+Astro.props.sidebar = Astro.props.sidebar
+  .filter((entry) => (
+    entry.type === 'group' &&
+    entry.entries.some(
+      (subEntry) => subEntry.type === 'link' && subEntry.href.startsWith(currentBase)
+    )
+  ));
+---
+
+<Dropdown options={sidebarContext} defaultValue={defaultValue} />
+<Default {...Astro.props}><slot /></Default>
