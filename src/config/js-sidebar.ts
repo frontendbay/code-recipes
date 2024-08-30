@@ -1,8 +1,8 @@
 const jsSidebar = [
   {
     label: "Getting Started",
-    autogenerate: { directory: "js/getting-started" },
-  }
+    autogenerate: { directory: "javascript/getting-started" },
+  },
 ]
 
 export default jsSidebar

@@ -1,8 +1,8 @@
 const sidebarContext = [
   {
     title: "JavaScript",
-    name: "js",
-    href: "/js/getting-started/introduction",
+    name: "javascript",
+    href: "/javascript/getting-started/introduction",
   },
   {
     title: "React",
