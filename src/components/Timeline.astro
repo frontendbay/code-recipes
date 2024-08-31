@@ -1,0 +1,34 @@
+---
+const milestones = [
+  { quarter: '01', title: 'Nix-based system integration', active: true },
+  { quarter: '02', title: 'Aegis Installer', active: false },
+  { quarter: '03', title: 'Addition of more custom tools and features', active: false },
+  { quarter: '04', title: 'ARM architecture support?', active: false },
+];
+
+const dotPositioning = "absolute md:relative z-10 bottom-20 md:bottom-5"
+const dotSize = "size-3 md:size-5"
+const dotStyle = "rounded-full bg-gray-700 ring-2"
+
+const linePositioning = "absolute z-0 top-0 md:top-[3.65rem] left-[49%] md:left-0 w-2 md:w-full h-full md:h-2"
+const stageStyle = "md:font-extralight text-center text-xs md:text-base text-orange-500 md:text-gray-400"
+const contentBlock = "rounded bg-gray-700/80 md:bg-transparent"
+
+---
+
+<div class="not-content">
+  <div class="text-base text-gray-900 dark:text-gray-300 pb-14 rounded-lg relative pt-20 md:pt-0">
+    <div class="flex flex-col md:flex-row gap-16 md:justify-around">
+      {milestones.map((milestone) => (
+        <div class="flex flex-col items-center gap-1 md:gap-10 relative z-10 md:w-1/4">
+          <div class="w-fit p-1" class:list={[stageStyle, contentBlock]}>{`Stage ${milestone.quarter}`}</div>
+          <div class="flex flex-col items-center">
+            <div class={`${milestone.active ? 'ring-orange-500' : 'ring-gray-600'}`} class:list={[dotPositioning, dotSize, dotStyle]} />
+            <div class="text-center font-medium w-fit p-1" class:list={[contentBlock]}>{milestone.title}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="rounded-full bg-gray-400 dark:bg-gray-800" class:list={[linePositioning]}></div>
+  </div>
+</div>
