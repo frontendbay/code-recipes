@@ -11,7 +11,7 @@ import socialLinks from './src/config/social-links';
 export default defineConfig({
   integrations: [
     starlight({
-      title: "Frontend Bay",
+      title: "Frontend Recipes",
       plugins: [starlightImageZoom({ showCaptions: false })],
       social: socialLinks,
       sidebar: [...jsSidebar, ...reactSidebar],
