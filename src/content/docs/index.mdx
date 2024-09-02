@@ -1,38 +1,61 @@
 ---
 title: React and JavaScript Code Recipes
-description: Powerful web development with ready-to-use code snippets for skills enhancement and project acceleration.
+description: Elevate your skills and accelerate your projects with this comprehensive ready-to-use collection of battle-tested code snippets.
 template: splash
 hero:
   title: 
     React and JavaScript Code Recipes
-  tagline: Powerful web development with ready-to-use code snippets for skills enhancement and project acceleration.
+  tagline: Elevate your skills and accelerate your projects with this comprehensive ready-to-use collection of battle-tested code snippets.
   image:
-    file: ../../assets/houston.svg
+    html: 
+      <figure class="group relative text-center text-xs text-neutral-500 dark:text-neutral-400">
+        <img src="/assets/houston.png" data-image-component="true" loading="eager" decoding="async" alt="react and javascript 3d icon" width="400" height="400" />
+        <figcaption class="group-hover:opacity-100 opacity-0 transition-all">
+          <a class="text-neutral-500 dark:text-neutral-400" href="https://iconscout.com/free-3d-illustration-pack/coding-lang" target="_blank">3D Icons</a> by <a class="text-neutral-500 dark:text-neutral-400" href="https://iconscout.com/contributors/tomsdesign" target="_blank">Toms Design</a>
+        </figcaption>
+      </figure>
   actions:
-    - text: Example Guide
+    - text: React Recipes
       link: /react/getting-started/introduction
       icon: right-arrow
-    - text: Need custom solutions for your project?
-      link: https://starlight.astro.build
-      icon: external
+    - text: JavaScript Recipes
+      link: /javascript/getting-started/introduction
       variant: "secondary"
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, TabItem, Tabs } from '@astrojs/starlight/components';
 import Footer from "../../components/Footer.astro";
 import Timeline from "../../components/Timeline.astro";
+import { javascript, react } from "../../config/browse-categories";
 
 <Timeline/>
 
-## Content Overview
+## Browse Collection
 
-<CardGrid>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-</CardGrid>
+<Tabs>
+  <TabItem label="React" icon="seti:react">
+    <CardGrid>
+      {
+        react.map( category => 
+          <Card title={category.title}>
+            {category.description}
+          </Card>
+        )
+      }
+    </CardGrid>
+  </TabItem>
+  <TabItem label="JavaScript" icon="seti:javascript">
+    <CardGrid>
+      {
+        javascript.map( category => 
+          <Card title={category.title}>
+            {category.description}
+          </Card>
+        )
+      }
+    </CardGrid>
+  </TabItem>
+</Tabs>
+
 
 <Footer />
