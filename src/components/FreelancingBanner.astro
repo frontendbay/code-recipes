@@ -2,18 +2,19 @@
 import Avatar from '../assets/avatar.png';
 ---
 
-<aside class="not-content relative group border border-solid border-accent-200 p-4 pb-0 rounded-xl overflow-hidden">
-	<div class="">
-		<a href="https://calendar.app.google/rCv6nBVZfmZewF6G7" target="_blank">
-			<h2 class="text-lg leading-tight text-gray-600 dark:text-gray-200 group-hover:text-black dark:group-hover:text-white hover:underline transition-all duration-300 ease-in-out">
+<div class="not-content">
+	<a href="https://calendar.app.google/rCv6nBVZfmZewF6G7" target="_blank">
+		<aside class="relative group border border-solid border-purple-500 p-4 pb-0 rounded-xl overflow-hidden">
+			<h2 class="text-lg leading-tight text-gray-600 dark:text-purple-100 group-hover:text-black dark:group-hover:text-purple-50 transition-all duration-300 ease-in-out">
 				Want to collaborate on a project?
 			</h2>
-		</a>
-		<p class="text-sm leading-tight w-[60%] pb-4 text-gray-500 dark:text-gray-400">
-			Let's schedule a call to discuss your next big idea <b>→</b>
-		</p>
-	</div>
-	<div class="text-right absolute bottom-0 right-0">
-		<img src={Avatar.src} alt="" width="120" height="auto" class="-mb-5 group-hover:translate-y-[-4px] transition-all duration-300 ease-in-out scale-x-[-1]"/>
-	</div>
-</aside>
+			<p class="text-sm leading-tight w-[60%] pb-4 text-gray-500 dark:text-gray-400">
+				Let's schedule a call to discuss your next big idea <b>→</b>
+			</p>
+			<div class="text-right absolute bottom-0 right-0">
+				<img src={Avatar.src} alt="" width="120" height="auto" class="-mb-5 group-hover:translate-y-[-4px] transition-all duration-300 ease-in-out scale-x-[-1]"/>
+			</div>
+		</aside>
+	</a>
+</div>
+	
