@@ -2,18 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-  Add additional Tailwind styles to this file, for example with @layer:
-  https://tailwindcss.com/docs/adding-custom-styles#using-css-and-layer
-*/
-
 :root {
+	--sl-color-accent-low: #3b0764;
+	--sl-color-accent: #a855f7;
+	--sl-color-accent-high: #d8b4fe;
 	--purple-hsl: 255, 60%, 60%;
 	--overlay-blurple: hsla(var(--purple-hsl), 0.2);
+	 --sl-font-system: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
 }
 
 :root[data-theme='light'] {
+	--sl-color-accent-low: #e9d5ff;
+	--sl-color-accent: #9333ea;
+	--sl-color-accent-high: #a855f7;
 	--purple-hsl: 255, 85%, 65%;
+}
+
+code {
+	font-family: monospace;
+	font-size: 0.875rem !important;
+	color: #f87171
+}
+
+[data-theme='light'] code {
+	color: #dc2626
+}
+
+.content-panel .sl-container footer.sl-flex {
+  display: none;
 }
 
 [data-has-hero] .page {
@@ -27,10 +43,16 @@
 [data-has-hero] header {
 	border-bottom: 1px solid transparent;
 	background-color: transparent;
-	-webkit-backdrop-filter: blur(16px);
-	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(1rem);
+	backdrop-filter: blur(1rem);
 }
 
 [data-has-hero] .hero > img {
 	filter: drop-shadow(0 0 3rem var(--overlay-blurple));
+}
+
+@media (min-width: 72rem) {
+  main > .content-panel .sl-container {
+      margin: 0 auto;
+  }
 }
