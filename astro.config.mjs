@@ -15,6 +15,9 @@ export default defineConfig({
       title: "Frontend Recipes",
       expressiveCode: {
         plugins: [pluginLineNumbers()],
+        defaultProps: {
+          showLineNumbers: true
+        }
       },
       plugins: [starlightImageZoom({ showCaptions: false })],
       social: socialLinks,
