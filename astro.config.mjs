@@ -1,5 +1,6 @@
 import starlight from '@astrojs/starlight';
 import tailwind from '@astrojs/tailwind';
+import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import { defineConfig } from 'astro/config';
 import starlightImageZoom from "starlight-image-zoom";
 import overridenComponents from './src/config/component-overrides';
@@ -12,6 +13,9 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Frontend Recipes",
+      expressiveCode: {
+        plugins: [pluginLineNumbers()],
+      },
       plugins: [starlightImageZoom({ showCaptions: false })],
       social: socialLinks,
       sidebar: [...jsSidebar, ...reactSidebar],
