@@ -1,5 +1,5 @@
 const socialLinks = {
-  github: "https://github.com/thisisabhinay/react-recipes",
+  github: "https://github.com/thisisabhinay/frontend-recipes",
 }
 
 export default socialLinks
