@@ -2,3 +2,201 @@
 title: useDebounce
 description: A reference page in my new Starlight docs site.
 ---
+
+The `useDebounce` hook is designed to delay the execution of a callback function. It's useful for scenarios where you want to limit how often a function is called, especially in response to frequent events like typing or scrolling.
+
+## Code 
+
+```js
+import { useCallback, useRef, useEffect } from "react"
+
+function useDebounce(callback, duration, dependencies) {
+	const timeoutRef = useRef(null)
+
+	const debouncedCallback = useCallback(function(...args) {
+		clearTimeout(timeoutRef.current)
+		timeoutRef.current = setTimeout(() => callback(...args), duration)
+	}, [callback, duration, ...dependencies])
+
+	useEffect(() => {
+		return () => clearTimeout(timeoutRef.current);
+	}, [])
+
+	return debouncedCallback
+}
+	
+export default useDebounce
+```
+
+## Explaination
+The hook takes three parameters: the callback function to be debounced, the duration of the delay, and any dependencies that should trigger a re-creation of the debounced function.
+```js showLineNumbers {1}
+function useDebounce(callback, duration, dependencies) {
+  const timeoutRef = useRef(null)
+  /* rest of the code */
+  return debouncedCallback
+}
+```
+
+It uses `useRef` to maintain a reference to the current timeout, `useCallback` to memoize the debounced function, and `useEffect` for cleanup. 
+```js showLineNumbers {2,4,8-10}
+function useDebounce(callback, duration, dependencies) {
+  const timeoutRef = useRef(null)
+  
+  const debouncedCallback = useCallback(function(...args) {
+    /* code */
+	}, [callback, duration, ...dependencies])
+
+	useEffect(() => {
+		return () => clearTimeout(timeoutRef.current);
+	}, [])
+
+  return debouncedCallback
+}
+```
+
+## How to use 
+
+When the debounced function is called, it clears any existing timeout and sets a new one. If the function is called again before the timeout expires, the process repeats, effectively "debouncing" the callback.
+```jsx showLineNumbers {2, 9-11, 15}
+import { useState } from 'react'
+import useDebounce from "./hooks/useDebounce"
+
+const DURATION = 1000
+
+function App() {
+  const [value, setValue] = useState("")
+  
+  const showChangeMessage = useDebounce((updatedValue) => {
+    console.log(`Updated value after ${DURATION}ms duration: ${updatedValue}`)
+  }, DURATION, [])
+
+  function inputHandler(e) {
+    const newValue = e.target.value
+    showChangeMessage(newValue)
+  }
+
+  return (
+    <div id="App">
+      <label for="test-input">Type anything</label>
+      <input id="test-input" type="text" value={value} onChange={inputHandler} />
+    </div>
+  )
+}
+```
+
+## Unit Test
+To run these tests, you'll need to have Jest and React Testing Library set up in your project. Make sure to place this test file in the apt test directory and name it something like `useDebounce.test.js` or `useDebounce.spec.js`.
+
+Following is the basic setup of test suite further followed by individual test cases:
+```js showLineNumbers
+import React from 'react';
+import { render, act } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
+import useDebounce from './useDebounce';
+
+jest.useFakeTimers();
+
+describe('useDebounce', () => {
+  /* Following test cases are to be inserted here */
+});
+```
+### It should debounce the callback
+```js showLineNumbers
+it('should debounce the callback', () => {
+  const callback = jest.fn();
+  const { result } = renderHook(() => useDebounce(callback, 1000, []));
+  const debouncedFn = result.current;
+
+  debouncedFn();
+  expect(callback).not.toBeCalled();
+
+  act(() => {
+    jest.advanceTimersByTime(500);
+  });
+  expect(callback).not.toBeCalled();
+
+  act(() => {
+    jest.advanceTimersByTime(500);
+  });
+  expect(callback).toBeCalled();
+  expect(callback).toHaveBeenCalledTimes(1);
+});
+```
+
+### It should cancel previous debounce when called again
+```js showLineNumbers
+it('should cancel previous debounce when called again', () => {
+  const callback = jest.fn();
+  const { result } = renderHook(() => useDebounce(callback, 1000, []));
+  const debouncedFn = result.current;
+
+  debouncedFn();
+  act(() => {
+    jest.advanceTimersByTime(500);
+  });
+  debouncedFn();
+  act(() => {
+    jest.advanceTimersByTime(500);
+  });
+  expect(callback).not.toBeCalled();
+
+  act(() => {
+    jest.advanceTimersByTime(500);
+  });
+  expect(callback).toBeCalled();
+  expect(callback).toHaveBeenCalledTimes(1);
+});
+```
+### It should pass arguments to the callback
+```js showLineNumbers
+it('should pass arguments to the callback', () => {
+  const callback = jest.fn();
+  const { result } = renderHook(() => useDebounce(callback, 1000, []));
+  const debouncedFn = result.current;
+
+  debouncedFn('test', 123);
+  act(() => {
+    jest.advanceTimersByTime(1000);
+  });
+  expect(callback).toHaveBeenCalledWith('test', 123);
+});
+```
+
+### It should clean up timeout on unmount
+```js showLineNumbers
+it('should clean up timeout on unmount', () => {
+  const callback = jest.fn();
+  const { result, unmount } = renderHook(() => useDebounce(callback, 1000, []));
+  const debouncedFn = result.current;
+
+  debouncedFn();
+  unmount();
+  act(() => {
+    jest.advanceTimersByTime(1000);
+  });
+  expect(callback).not.toBeCalled();
+});
+```
+
+### It should recreate debounced function when dependencies change
+```js showLineNumbers
+it('should recreate debounced function when dependencies change', () => {
+  const callback = jest.fn();
+  let dependency = 'initial';
+  const { result, rerender } = renderHook(() => useDebounce(callback, 1000, [dependency]));
+  
+  let debouncedFn = result.current;
+  debouncedFn();
+
+  dependency = 'changed';
+  rerender();
+
+  expect(result.current).not.toBe(debouncedFn);
+});
+```
+
+A few notes about the test setup:
+- We're using `jest.useFakeTimers()` to control time in our tests.
+- `renderHook` from `@testing-library/react-hooks` is used to test the custom hook outside of a component.
+- `act` is used to wrap operations that cause state updates.
