@@ -2,3 +2,138 @@
 title: Basic Redux Counter
 description: A reference page in my new Starlight docs site.
 ---
+import { Steps } from '@astrojs/starlight/components';
+
+## Code
+
+Define the counter slice, named as `counterSlice` and export the reducer from it.
+```jsx
+// /src/slice/counter.ts
+import { createSlice } from "@reduxjs/toolkit"
+
+const counterSlice = createSlice({
+  name: "counter",
+  initialState: {
+    count: 0
+  },
+  reducers: {
+    increment(state) {
+      return { ...state, count: state.count + 1 }
+    },
+
+    decrement(state) {
+      return { ...state, count: state.count - 1 }
+    },
+
+    incrementBy(state, action) {
+      return { ...state, count: state.count + action.payload }
+    },
+
+    decrementBy(state, action) {
+      return { ...state, count: state.count - action.payload }
+    }
+  }
+})
+
+export const { increment, decrement, incrementBy, decrementBy } =
+  counterSlice.actions
+
+export default counterSlice.reducer
+```
+
+Define the global store.
+```jsx
+// /src/store/index.ts
+import { configureStore } from "@reduxjs/toolkit"
+import counterSliceReducer from "../slices/counter"
+
+const store = configureStore({
+  reducer: {
+    counter: counterSliceReducer
+  }
+})
+
+// For testing
+store.subscribe(() => console.log(store.getState()))
+
+export default store
+```
+
+Provide this global store as a react context so that all components have access to it
+```jsx {4-5, 10,12}
+// /src/main.jsx
+import { StrictMode } from "react"
+import { createRoot } from "react-dom/client"
+import { Provider } from "react-redux"
+import store from "./store"
+import App from "./App.jsx"
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </StrictMode>
+)
+```
+
+## How to use
+```jsx {13-14, 30, 43-45, 48}
+// /src/components/Counter.jsx
+import { useSelector, useDispatch } from "react-redux"
+import {
+  decrement,
+  increment,
+  incrementBy,
+  decrementBy
+} from "../slices/counter"
+import { useCallback, useState } from "react"
+
+function Counter() {
+  const [delta, setDelta] = useState(0)
+  const count = useSelector((store) => store.counter.count)
+  const dispatch = useDispatch()
+
+  const changeHandler = useCallback((e) => {
+    const value = Number(e.target.value)
+    setDelta(value)
+  }, [])
+
+  return (
+    <div id="Counter" className="container">
+      <div class="grid">
+        <div>
+          <h6>Redux Counter</h6>
+        </div>
+      </div>
+      <div class="grid">
+        <div>
+          <h1>{count}</h1>
+        </div>
+      </div>
+      <div class="grid">
+        <div>
+          <input
+            type="number"
+            name="number"
+            placeholder="Number"
+            aria-label="Number"
+            value={delta}
+            onChange={changeHandler}
+          />
+          <button onClick={() => dispatch(increment())}>Increment</button>
+          <button onClick={() => dispatch(decrement())}>Decrement</button>
+          <button onClick={() => dispatch(incrementBy(delta))}>
+            Increase by
+          </button>
+          <button onClick={() => dispatch(decrementBy(delta))}>
+            Decrease by
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Counter
+```
