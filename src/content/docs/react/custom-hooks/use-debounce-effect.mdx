@@ -6,6 +6,7 @@ description: A reference page in my new Starlight docs site.
 ## Code 
 
 ```js
+// /src/hooks/useDebounceEffect.js
 import { useEffect } from "react"
 
 function useDebounceEffect(callback, duration, dependencies) {
@@ -24,6 +25,7 @@ export default useDebounceEffect
 ## How to use 
 
 ```jsx {1, 8-10}
+// /src/App.jsx
 import useDebounceEffect from "./hooks/useDebounceEffect"
 
 const DURATION = 1000
