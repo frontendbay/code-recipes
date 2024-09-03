@@ -1,5 +1,99 @@
 ---
 title: Optimized List Rendering
 description: A reference page in my new Starlight docs site.
-draft: true
 ---
+
+## Code
+
+```js {10,18, 42}
+// /src/components/AccountTable.tsx
+import { SyntheticEvent, useState, useMemo, useCallback } from "react"
+import mockList, { type Account } from "../mocks/mock-list"
+import AccountTableRow from "./AccountTableRow"
+
+function AccountTable() {
+  const [list] = useState<Account[]>(mockList)
+  const [filter, setFilter] = useState<string>("")
+
+  const filteredList = useMemo(
+    () =>
+      list.filter((account) =>
+        account.fullName.toLowerCase().includes(filter.toLowerCase())
+      ),
+    [list, filter]
+  )
+
+  const searchHandler = useCallback((e: SyntheticEvent) => {
+    const target = e.target as HTMLInputElement
+    const value = target.value.trim()
+    setFilter(value)
+  }, [])
+
+  return (
+    <div id="AccountTable" className="container-fluid">
+      <input
+        type="search"
+        name="search"
+        placeholder="Search person"
+        aria-label="Search"
+        onChange={searchHandler}
+      />
+      <table className="striped">
+        <thead>
+          <tr>
+            <th scope="col">Full Name</th>
+            <th scope="col">Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredList.map((account) => (
+            <AccountTableRow key={account._id} account={account} />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+export default AccountTable
+```
+
+
+```js {2, 5-7}
+// /src/components/AccountTableRow.tsx
+import { memo } from "react"
+import { type Account } from "../mocks/mock-list"
+
+const AccountTableRow = memo<{ account: Account }>(function AccountTableRow({
+  account
+}) {
+  return (
+    <tr key={account._id}>
+      <th scope="row">
+        <div style={{ width: "max-content" }}>{account.fullName}</div>
+      </th>
+      <td>
+        <div>{new Date().toLocaleTimeString()}</div>
+      </td>
+    </tr>
+  )
+})
+
+export default AccountTableRow
+```
+
+```js
+// /src/App.tsx
+import './App.css'
+import AccountTable from "./components/AccountTable"
+
+function App() {
+  return (
+    <div id="App" className="container">
+      <AccountTable/>
+    </div>
+  )
+}
+
+export default App
+```
