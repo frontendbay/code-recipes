@@ -30,7 +30,7 @@ export default useDebounce
 
 ## Explaination
 The hook takes three parameters: the callback function to be debounced, the duration of the delay, and any dependencies that should trigger a re-creation of the debounced function.
-```js showLineNumbers {1}
+```js {1}
 function useDebounce(callback, duration, dependencies) {
   const timeoutRef = useRef(null)
   /* rest of the code */
@@ -39,7 +39,7 @@ function useDebounce(callback, duration, dependencies) {
 ```
 
 It uses `useRef` to maintain a reference to the current timeout, `useCallback` to memoize the debounced function, and `useEffect` for cleanup. 
-```js showLineNumbers {2,4,8-10}
+```js {2,4,8-10}
 function useDebounce(callback, duration, dependencies) {
   const timeoutRef = useRef(null)
   
@@ -58,7 +58,7 @@ function useDebounce(callback, duration, dependencies) {
 ## How to use 
 
 When the debounced function is called, it clears any existing timeout and sets a new one. If the function is called again before the timeout expires, the process repeats, effectively "debouncing" the callback.
-```jsx showLineNumbers {2, 9-11, 15}
+```jsx {2, 9-11, 15}
 import { useState } from 'react'
 import useDebounce from "./hooks/useDebounce"
 
@@ -89,7 +89,7 @@ function App() {
 To run these tests, you'll need to have Jest and React Testing Library set up in your project. Make sure to place this test file in the apt test directory and name it something like `useDebounce.test.js` or `useDebounce.spec.js`.
 
 Following is the basic setup of test suite further followed by individual test cases:
-```js showLineNumbers
+```js
 import React from 'react';
 import { render, act } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
@@ -102,7 +102,7 @@ describe('useDebounce', () => {
 });
 ```
 ### It should debounce the callback
-```js showLineNumbers
+```js
 it('should debounce the callback', () => {
   const callback = jest.fn();
   const { result } = renderHook(() => useDebounce(callback, 1000, []));
@@ -125,7 +125,7 @@ it('should debounce the callback', () => {
 ```
 
 ### It should cancel previous debounce when called again
-```js showLineNumbers
+```js
 it('should cancel previous debounce when called again', () => {
   const callback = jest.fn();
   const { result } = renderHook(() => useDebounce(callback, 1000, []));
@@ -149,7 +149,7 @@ it('should cancel previous debounce when called again', () => {
 });
 ```
 ### It should pass arguments to the callback
-```js showLineNumbers
+```js
 it('should pass arguments to the callback', () => {
   const callback = jest.fn();
   const { result } = renderHook(() => useDebounce(callback, 1000, []));
@@ -164,7 +164,7 @@ it('should pass arguments to the callback', () => {
 ```
 
 ### It should clean up timeout on unmount
-```js showLineNumbers
+```js
 it('should clean up timeout on unmount', () => {
   const callback = jest.fn();
   const { result, unmount } = renderHook(() => useDebounce(callback, 1000, []));
@@ -180,7 +180,7 @@ it('should clean up timeout on unmount', () => {
 ```
 
 ### It should recreate debounced function when dependencies change
-```js showLineNumbers
+```js
 it('should recreate debounced function when dependencies change', () => {
   const callback = jest.fn();
   let dependency = 'initial';
