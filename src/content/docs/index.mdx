@@ -28,8 +28,6 @@ import Footer from "../../components/Footer.astro";
 import Timeline from "../../components/Timeline.astro";
 import { javascript, react } from "../../config/browse-categories";
 
-<Timeline/>
-
 ## Browse Collection
 
 <Tabs>
@@ -37,9 +35,12 @@ import { javascript, react } from "../../config/browse-categories";
     <CardGrid>
       {
         react.map( category => 
-          <Card title={category.title}>
-            {category.description}
-          </Card>
+          <a href={category.href} class="no-underline text-slate-300">
+            {/* Override card component to support href */}
+            <Card title={category.title}>
+              {category.description}
+            </Card>
+          </a>
         )
       }
     </CardGrid>
