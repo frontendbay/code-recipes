@@ -1,0 +1,54 @@
+---
+title: Dynamic theme switching
+description: A guide in my new Starlight docs site.
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+:::note
+This recipe is dependent on [Support Multiple Themes](/design-engineering/tailwind/support-multiple-themes). Check it to know more about how to configure multiple themes support in Tailwind CSS.
+:::
+
+## Steps to configuration
+
+<Steps>
+
+1. Define a utility function called `changeTheme` that takes a theme string as an argument and applies it as a data attribute to the HTML element:
+
+    ```ts
+    // src/utils/helper.ts
+    export const changeTheme = (theme: string) => {
+      document.querySelector("html")?.setAttribute("data-theme", theme);
+    };
+    ```
+2. Inside your component, create buttons (or any other user intercatable element) that, when intercated with, call the `changeTheme` function with the corresponding theme name:
+
+    ```jsx {10,15,20}
+    // src/pages/index.tsx
+    import { changeTheme } from "@/utils/helper";
+    export default function Home() {
+
+    return (
+      <div className='h-screen grid place-items-center bg-primary'>
+        <div>
+          <button
+            className='py-2 px-8 bg-buttons text-typography m-2'
+            onClick={() => changeTheme("")}>
+            Default
+          </button>
+          <button
+            className='py-2 px-8 bg-buttons text-typography m-2'
+            onClick={() => changeTheme("uno")}>
+              Theme Uno
+          </button>
+          <button
+            className='py-2 px-8 bg-buttons text-typography m-2'
+            onClick={() => changeTheme("dos")}>
+              Theme Dos
+          </button>
+        </div>
+      </div>
+    )}
+    ```
+
+</Steps>
