@@ -101,4 +101,17 @@ export const javascript = [
   },
 ]
 
+export const designEngg = [
+  {
+    title: "Tooling Setup",
+    href: "/design-engineering/tooling-setup/overview",
+    description: "Implement pure functions, immutability, and composition",
+  },
+  {
+    title: "Tailwind CSS Recipes",
+    href: "/design-engineering/tailwind/overview",
+    description: "Craft your own lodash with essential utility functions",
+  },
+]
+
 

@@ -4,6 +4,7 @@ import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import { defineConfig } from 'astro/config';
 import starlightImageZoom from "starlight-image-zoom";
 import overridenComponents from './src/config/component-overrides';
+import designEnggSidebar from "./src/config/design-engineering-sidebar";
 import jsSidebar from './src/config/js-sidebar';
 import reactSidebar from './src/config/react-sidebar';
 import socialLinks from './src/config/social-links';
@@ -16,12 +17,12 @@ export default defineConfig({
       expressiveCode: {
         plugins: [pluginLineNumbers()],
         defaultProps: {
-          showLineNumbers: true
-        }
+          showLineNumbers: true,
+        },
       },
       plugins: [starlightImageZoom({ showCaptions: false })],
       social: socialLinks,
-      sidebar: [...jsSidebar, ...reactSidebar],
+      sidebar: [...jsSidebar, ...reactSidebar, ...designEnggSidebar],
       customCss: ["./src/tailwind.css"],
       components: overridenComponents,
     }),
