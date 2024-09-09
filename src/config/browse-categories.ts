@@ -114,4 +114,12 @@ export const designEngg = [
   },
 ]
 
+export const buildTools = [
+  {
+    title: "Turborepo",
+    href: "/build-tools/turborepo/overview",
+    description: "Implement pure functions, immutability, and composition",
+  },
+]
+
 

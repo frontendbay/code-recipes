@@ -3,6 +3,7 @@ import tailwind from '@astrojs/tailwind';
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import { defineConfig } from 'astro/config';
 import starlightImageZoom from "starlight-image-zoom";
+import buildToolsSidebar from "./src/config/build-tools-sidebar";
 import overridenComponents from './src/config/component-overrides';
 import designEnggSidebar from "./src/config/design-engineering-sidebar";
 import jsSidebar from './src/config/js-sidebar';
@@ -22,7 +23,12 @@ export default defineConfig({
       },
       plugins: [starlightImageZoom({ showCaptions: false })],
       social: socialLinks,
-      sidebar: [...jsSidebar, ...reactSidebar, ...designEnggSidebar],
+      sidebar: [
+        ...jsSidebar,
+        ...reactSidebar,
+        ...designEnggSidebar,
+        ...buildToolsSidebar,
+      ],
       customCss: ["./src/tailwind.css"],
       components: overridenComponents,
     }),
