@@ -10,4 +10,3 @@ const buildToolsSidebar = [
 ]
 
 export default buildToolsSidebar
-

@@ -1,0 +1,97 @@
+---
+title: Setting up storybook and writing stories
+description: A guide in my new Starlight docs site.
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+Storybook provides a workshop to build UIs in isolation. It helps you develop hard-to-reach states and edge cases without needing to run the whole app.
+
+
+## Setting up the Storybook.js in React app
+<Steps>
+1. In a project without Storybook, follow the prompts after running this command in your React project's root directory:
+    
+    ```bash frame="terminal" showLineNumbers=false
+    npx storybook@latest init
+    ```
+    
+    To upgrade existing storybook:
+    
+    ```bash frame="terminal" showLineNumbers=false
+    npx storybook@latest upgrade
+    ```
+    
+2. Depending on your system configuration, running the storybook command will start the local development server.
+    
+    ```bash
+    npm run storybook
+    ```
+</Steps>
+
+## Writing stories
+Covering the fundamentals of writing stories - component documentation - with Storybook.
+
+### Essential imports from Storybook package while writing stories 
+Import `Meta` and `StoryObj` for type safety and autocompletion in TypeScript stories.
+Next, import a component. In this case, the `Button` component:
+
+```jsx
+// /components/stories/button.stories.ts
+import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from './Button';
+```
+
+### Role of 'Meta' in story definition
+The default export, Meta, contains metadata about the component's stories. The title field (optional) controls where stories appear in the sidebar.
+
+<div class="bg-slate-900/10 text-center">
+![screenshot from storybook UI](https://remnote-user-data.s3.amazonaws.com/UmNKQmCzsL1meKF7qZ5TIK1iqRcmKsbDfDwg0v1-Z6HnWG7ugEGtxd6OTVp6DsKv_NStbYs7pwJ0NUG-5j_8swU6dGNyCgjyyD4fiuKpt7HQuXBlGv63NDRdZ7dU1Tqr.png)
+</div>
+
+```jsx
+// /components/stories/button.stories.ts
+// rest of the code
+const meta: Meta<typeof Button> = {
+  title: 'Example/Button',
+  component: Button,
+  // ...
+};
+
+export default meta; 
+```
+
+### What's a story in storybook.js?
+Each named export is a story. The content defined inside it specify how the story is rendered in addition to other configuration options.
+
+![screenshot of storybook UI](https://remnote-user-data.s3.amazonaws.com/LeHxXEDUbklJCD_oWNIVceN2_1biGZhIN_MgBdt6WR43cv48NTY5Ra8UFkQ44w1Yy3uDJvdCfhwzYVI0oRJLUwZ0xe7-XvyrefhSraHBTaG9FtiRyzIjauFZz0vUVaxp.png)
+
+```jsx
+// /components/stories/button.stories.ts
+// rest of the code
+type Story = StoryObj<Button>;
+  
+export const Primary: Story = {
+  // content of the 'Primary' story
+};
+```
+
+### 'Args' and the role they play in Storybook.js
+Args are inputs that are passed to the component, which Storybook uses to render the component in different states. In React, `args = props`. 
+They also specify the initial control values for the story.
+
+![screenshot of storybook UI](https://remnote-user-data.s3.amazonaws.com/51wNsmuWjnTlmFdZgpzVPbYcVOkLukKNEpZqLrbMqHPqymLzI_v5ntnE2RfJKKiU6abKQrr8V9BQf_UqWTK0Zlz_cQM-yR76lH_mJTzSl16v4JkLXIfFtx6eMXmRm5MH.png?loading=false)
+
+```jsx
+// /components/stories/button.stories.ts
+// rest of the code
+type Story = StoryObj<Button>;
+  
+export const Primary: Story = {
+  args: {
+    primary: true,
+    label: 'Click',
+    background: 'red'
+  }
+};
+```

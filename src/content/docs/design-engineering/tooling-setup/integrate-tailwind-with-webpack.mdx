@@ -1,0 +1,82 @@
+---
+title: Integrate Tailwind with Webpack
+description: A guide in my new Starlight docs site.
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+In this recipe, We will be configuring Webpack 5 to run with Tailwind CSS and PostCSS using yarn to manage all dependencies.
+
+<Steps>
+1. Install tailwindcss and its peer dependencies via npm, and create your `tailwind.config.js` file.
+    
+    ```bash frame="terminal" showLineNumbers=false
+    npm i -D tailwindcss postcss autoprefixer
+    npx tailwindcss init
+    ```
+    
+2. Install CSS loaders for webpack configuration
+    
+    ```bash frame="terminal" showLineNumbers=false
+    npm i -D style-loader css-loader postcss-loader postcss-preset-env
+    ```
+    
+3. Configure webpack for CSS files
+    
+    ```json
+    // /webpack.config.js
+    // rest of webpack configuration
+    module: {
+      rules: [
+        {
+          test: /\.css$/i,
+          include: path.resolve(__dirname, "src"),
+          use: ["style-loader", "css-loader", "postcss-loader"],
+        },
+      ],
+    },
+    // rest of webpack configuration
+    ```
+    
+4. Add Tailwind to your PostCSS configuration. Add tailwindcss and autoprefixer to your `postcss.config.js` file, or wherever PostCSS is configured in your project.
+    
+    ```js
+    // /postcss.config.js
+    module.exports = {
+    	plugins: {
+    		tailwindcss: {},
+    		autoprefixer: {},
+    	}	
+    }
+    ```
+    
+5. Configure your template paths. Add the paths to all of your template files in your `tailwind.config.js` file.
+    
+    ```js
+    // /tailwind.config.js
+    /** @type {import('tailwindcss').Config} */
+    module.exports = {
+      content: ["./src/**/*.{html,js,jsx,ts,tsx}"],
+      theme: {
+        extend: {},
+      },
+      plugins: [],
+    }
+    ```
+    
+6. Add the `@tailwind` directives for each of Tailwind's layers to your main CSS file.
+    
+    ```css
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+    ```
+ 
+7. Import this main css file in the entry point (or index html file) of your app.
+ 
+8. Start your build process. Run your build process with npm run dev or whatever command is configured in your package.json file.
+    
+    ```bash frame="terminal" showLineNumbers=false
+    npm run dev
+    ```
+</Steps>
