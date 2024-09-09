@@ -26,7 +26,7 @@ hero:
 import { Card, CardGrid, TabItem, Tabs } from '@astrojs/starlight/components';
 import Footer from "../../components/Footer.astro";
 import Timeline from "../../components/Timeline.astro";
-import { javascript, react } from "../../config/browse-categories";
+import { designEngg, javascript, react } from "../../config/browse-categories";
 
 ## Browse Collection
 
@@ -52,6 +52,20 @@ import { javascript, react } from "../../config/browse-categories";
           <Card title={category.title}>
             {category.description}
           </Card>
+        )
+      }
+    </CardGrid>
+  </TabItem>
+  <TabItem label="Design Engineering" icon="seti:svg">
+    <CardGrid>
+      {
+        designEngg.map( category => 
+          <a href={category.href} class="no-underline text-slate-300">
+            {/* Override card component to support href */}
+            <Card title={category.title}>
+              {category.description}
+            </Card>
+          </a>
         )
       }
     </CardGrid>
