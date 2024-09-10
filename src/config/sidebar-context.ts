@@ -24,6 +24,11 @@ const sidebarContext = [
     name: "unit-testing",
     href: "/unit-testing/getting-started/introduction",
   },
+  {
+    title: "Micro Frontends",
+    name: "micro-frontends",
+    href: "/micro-frontends/getting-started/introduction",
+  },
 ]
 
 export default sidebarContext

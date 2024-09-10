@@ -7,6 +7,7 @@ import buildToolsSidebar from "./src/config/build-tools-sidebar";
 import overridenComponents from './src/config/component-overrides';
 import designEnggSidebar from "./src/config/design-engineering-sidebar";
 import jsSidebar from './src/config/js-sidebar';
+import microFrontendSidebar from "./src/config/micro-frontend-sidebar.ts";
 import reactSidebar from './src/config/react-sidebar';
 import socialLinks from './src/config/social-links';
 import unitTestingSidebar from "./src/config/unit-testing-sidebar";
@@ -30,6 +31,7 @@ export default defineConfig({
         ...designEnggSidebar,
         ...buildToolsSidebar,
         ...unitTestingSidebar,
+        ...microFrontendSidebar,
       ],
       customCss: ["./src/tailwind.css"],
       components: overridenComponents,
