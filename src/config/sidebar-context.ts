@@ -19,6 +19,11 @@ const sidebarContext = [
     name: "build-tools",
     href: "/build-tools/getting-started/introduction",
   },
+  {
+    title: "Unit Testing",
+    name: "unit-testing",
+    href: "/unit-testing/getting-started/introduction",
+  },
 ]
 
 export default sidebarContext

@@ -9,6 +9,7 @@ import designEnggSidebar from "./src/config/design-engineering-sidebar";
 import jsSidebar from './src/config/js-sidebar';
 import reactSidebar from './src/config/react-sidebar';
 import socialLinks from './src/config/social-links';
+import unitTestingSidebar from "./src/config/unit-testing-sidebar";
 
 // https://astro.build/config
 export default defineConfig({
@@ -28,6 +29,7 @@ export default defineConfig({
         ...reactSidebar,
         ...designEnggSidebar,
         ...buildToolsSidebar,
+        ...unitTestingSidebar,
       ],
       customCss: ["./src/tailwind.css"],
       components: overridenComponents,
