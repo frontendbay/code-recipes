@@ -1,5 +1,117 @@
 ---
 title: Using Web Workers For Heavy Computations
 description: A reference page in my new Starlight docs site.
-draft: true
 ---
+
+
+## Code
+
+```js
+// /src/worker/web-worker.ts
+export default class WebWorker {
+	constructor(worker: any) {
+		const code = worker.toString();
+		const blob = new Blob(['('+code+')()']);
+		return new Worker(URL.createObjectURL(blob));
+	}
+}
+```
+
+```js {12, 16-19, 24-25}
+// /src/worker/timer-worker.ts
+const timerWorker = () => {
+  let seconds = 0
+  let timerId: number | null = null
+
+  const INTERVAL = 1000
+
+  function dataFactory(time: number, status: "start" | "stop") {
+    return { time, status }
+  }
+
+  self.onmessage = (event) => {
+    if (event.data === "start") {
+      seconds = 0
+      if (timerId) clearInterval(timerId)
+      timerId = setInterval(() => {
+        seconds++
+        self.postMessage(dataFactory(seconds, "start"))
+      }, INTERVAL)
+    }
+
+    if (event.data === "stop") {
+      seconds = 0
+      self.postMessage(dataFactory(seconds, "stop"))
+      clearInterval(timerId as number)
+      timerId = null
+    }
+  }
+}
+
+export default timerWorker
+```
+
+## How to use
+```tsx {4-5, 12, 46, 25-34, 39-41}
+// /src/components/Timer.tsx
+import { FC, useEffect, useRef, useMemo, useState } from "react"
+import { Timer as TimerStatus } from "../enums/timer"
+import TimerWorker from "../worker/timer-worker"
+import WebWorker from "../worker/web-worker"
+
+export interface TimerProps {}
+
+const Timer: FC<TimerProps> = () => {
+  const [timerRunning, setTimerRunning] = useState(false)
+  const [seconds, setSeconds] = useState(0)
+  const workerRef = useRef<Worker | null>(null)
+
+  const timer = useMemo(() => {
+    const secs = seconds % 60
+    const mins = Math.floor(seconds / 60) % 60
+    const hrs = Math.floor(seconds / 3600) % 24
+    const days = Math.floor(seconds / (3600 * 24))
+
+    return `${days}d ${hrs}h ${mins}m ${secs}s`
+  }, [seconds])
+
+  const btnStyle = `btn ${timerRunning ? "btn-danger" : ""}`
+
+  function initTimerWorker() {
+    workerRef.current = new WebWorker(TimerWorker)
+    workerRef.current.onmessage = (event) => {
+      const { time, status } = event.data
+      setSeconds(time)
+    }
+
+    // useEffect cleanup
+    return () => workerRef.current?.terminate()
+  }
+
+  function clickHandler() {
+    setTimerRunning((prev) => {
+      const newState = !prev
+      workerRef.current?.postMessage(
+        newState ? TimerStatus.START : TimerStatus.STOP
+      )
+      return newState
+    })
+  }
+
+  useEffect(initTimerWorker, [])
+
+  return (
+    <div
+      id="Timer"
+      className="place-self-center bg-white rounded-md p-4 w-80 text-center border border-solid border-slate-200"
+    >
+      <div className="text-3xl mb-2 font-bold">{timer}</div>
+      <button className={btnStyle} onClick={clickHandler}>
+        {timerRunning ? "Stop" : "Start"}
+      </button>
+    </div>
+  )
+}
+
+export default Timer
+```

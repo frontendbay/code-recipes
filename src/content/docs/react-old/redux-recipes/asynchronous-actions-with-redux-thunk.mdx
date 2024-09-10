@@ -1,0 +1,119 @@
+---
+title: Asynchronous Actions With Redux Thunk
+description: A reference page in my new Starlight docs site.
+---
+
+## Code
+
+Define the joke slice, named as `jokeSlice` and export the reducer from it. We are going to define out thunk `fetchJoke` here as well.
+```jsx {4-19, 35-50}
+// /src/slice/joke.ts
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+
+export const fetchJoke = createAsyncThunk(
+  "joke/fetchJoke",
+  async (reqBody, { rejectWithValue }) => {
+    try {
+      const response = (await fetch(
+        "https://api.chucknorris.io/jokes/random"
+      )) as any
+
+      const data = await response.json()
+
+      return data.value
+    } catch (error) {
+      return rejectWithValue("Some error, huh")
+    }
+  }
+)
+
+const jokeSlice = createSlice({
+  name: "joke",
+  initialState: {
+    status: "idle",
+    data: "",
+    error: "",
+    rating: 0
+  },
+
+  reducers: {
+    addRating(state, { payload }) {
+      return { ...state, rating: payload }
+    }
+  },
+
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchJoke.pending, (state) => {
+        state.status = "pending"
+      })
+      .addCase(fetchJoke.fulfilled, (state, { payload }) => {
+        state.status = "success"
+        state.data = payload
+        state.rating = 0
+      })
+      .addCase(fetchJoke.rejected, (state, { payload }) => {
+        state.status = "fail"
+        state.error = payload?.toString()
+      })
+  }
+})
+
+export const { addRating } = jokeSlice.actions
+
+export default jokeSlice.reducer
+```
+
+:::note
+  To learn about how to setup basic redux store and provide it as context throughout the react app, refer [Basic Redux Counter](/react/redux-recipes/basic-redux-counter/).
+:::
+
+## How to use
+```jsx {4, 7-8, 28, 41}
+// /src/App.jsx
+import { useEffect, useMemo } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchJoke, addRating } from "./slices/joke"
+
+function App() {
+  const dispatch = useDispatch()
+  const { data, rating, error, status } = useSelector(({ joke }) => joke)
+
+  const renderStatus = () => {
+    switch (status) {
+      case "fail":
+        return <p className="error">{error}</p>
+
+      case "pending":
+        return <ins>Loading...</ins>
+
+      default:
+        return (
+          <button style={{ marginRight: "1rem" }} onClick={addStars}>
+            Add Star
+          </button>
+        )
+    }
+  }
+
+  function addStars() {
+    dispatch(addRating(rating === 5 ? 5 : rating + 1))
+  }
+
+  useEffect(() => {
+    dispatch(fetchJoke())
+  }, [])
+
+  return (
+    <div id="App">
+      <h1>{data ? data : "Click the button to get new joke"}</h1>
+      <h6>Rating: {rating} star </h6>
+      {renderStatus()}
+
+      <button onClick={() => dispatch(fetchJoke())}>Get new joke</button>
+    </div>
+  )
+}
+
+export default App
+```
