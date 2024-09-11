@@ -1,19 +1,23 @@
 ---
-title: Dynamic theme switching
-description: A guide in my new Starlight docs site.
+title: Dynamic Theme Switching
+description: Learn how to implement dynamic theme switching in your application using Tailwind CSS and React.
 ---
+
+
 
 import { Steps } from '@astrojs/starlight/components';
 
+Dynamic theme switching allows users to change the visual appearance of your application on-the-fly. This recipe demonstrates how to implement this feature in a React application using Tailwind CSS for styling.
+
 :::note
-This recipe is dependent on [Support Multiple Themes](/design-engineering/tailwind/support-multiple-themes). Check it to know more about how to configure multiple themes support in Tailwind CSS.
+This recipe builds upon the [Support Multiple Themes](/design-engineering/tailwind/support-multiple-themes) configuration. Please review that guide first to understand how to set up multiple theme support in Tailwind CSS.
 :::
 
-## Steps to configuration
+## Steps to Create Switch
 
 <Steps>
 
-1. Define a utility function called `changeTheme` that takes a theme string as an argument and applies it as a data attribute to the HTML element:
+1. Define a utility function called `changeTheme` that applies a theme to the HTML element:
 
     ```ts
     // src/utils/helper.ts
@@ -21,6 +25,9 @@ This recipe is dependent on [Support Multiple Themes](/design-engineering/tailwi
       document.querySelector("html")?.setAttribute("data-theme", theme);
     };
     ```
+    
+    This function takes a `theme` string as an argument and sets it as a `data-theme` attribute on the `<html>` element. Tailwind CSS will use this attribute to apply the corresponding theme styles.
+
 2. Inside your component, create buttons (or any other user intercatable element) that, when intercated with, call the `changeTheme` function with the corresponding theme name:
 
     ```jsx {10,15,20}
@@ -51,4 +58,15 @@ This recipe is dependent on [Support Multiple Themes](/design-engineering/tailwi
     )}
     ```
 
+    This is an example component that renders three buttons, each corresponding to a different theme. When clicked, they call the `changeTheme` function with the appropriate theme name.
 </Steps>
+
+## Additional Considerations
+
+- **Persistence**: To maintain the user's theme preference across sessions, consider storing the selected theme in `localStorage` and applying it on initial page load.
+
+- **System Preference**: You may want to respect the user's system-wide dark/light mode preference initially. Use the `prefers-color-scheme` media query to detect this and set an appropriate default theme.
+
+- **Accessibility**: Ensure that your theme colors maintain sufficient contrast ratios for readability across all themes.
+
+- **Performance**: If your themes involve many style changes, consider using CSS variables for smoother transitions and better performance.

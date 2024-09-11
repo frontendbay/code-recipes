@@ -1,13 +1,19 @@
 ---
 title: Support Multiple Themes
-description: A guide in my new Starlight docs site.
+description: Learn how to set up and manage multiple color themes in your Tailwind CSS project, allowing for easy customization and dynamic theme switching.
 ---
 
 import { Steps } from '@astrojs/starlight/components';
 
+Implementing multiple themes in your Tailwind CSS project allows for greater flexibility and customization. This recipe will walk you through the process of setting up a base theme and creating additional theme variants that can be easily switched between.
+
+## Configuration Steps
 <Steps>
 
-1. In your project's source directory, navigate to the styles folder and open the global css file and set up your base Tailwind CSS configuration:
+1. **Set up your base Tailwind CSS configuration:**
+
+   Navigate to your project's source directory, locate the `styles` folder, and open the `global.css` file. Add the following code to set up your base Tailwind CSS configuration:
+
     ```css {8-11}
     @tailwind base;
     @tailwind components;
@@ -23,7 +29,13 @@ import { Steps } from '@astrojs/starlight/components';
       }
     }
     ```
-2. Create individual CSS files for each theme variant. Example `uno.css`, `dos.css` etc.
+
+    This code establishes your default color scheme using CSS custom properties. These variables will be used as the foundation for your theming system.
+
+2. **Create theme variant files:**
+
+   For each additional theme, create a separate CSS file( here, `src/styles/themes/` directory). Each file should define the color variables for that specific theme. For example:
+
     ```css
     /* src/styles/themes/theme-uno.css */
     html[data-theme="uno"] {
@@ -44,7 +56,12 @@ import { Steps } from '@astrojs/starlight/components';
     }
     ```
 
-3. In `global.css` Below your base theme settings, you can start importing your theme variants.
+    These files use the `data-theme` attribute to apply different color schemes when the attribute is set on the `html` element.
+
+3. **Import theme variants:**
+
+    Return to your `global.css` file and import the theme variant files you created:
+
     ```css {10-11}
     /* Your base theme settings */
     @layer base {
@@ -60,7 +77,12 @@ import { Steps } from '@astrojs/starlight/components';
     }
     ```
 
-4. Open the `tailwind.config.js` file and configure it to extend the theme colors using the CSS custom properties defined in your global.css
+    This step ensures that all theme variants are loaded and ready to be applied when needed.
+
+4. **Configure Tailwind to use theme colors:**
+
+    Open the `tailwind.config.js` file in your project root and update it to use the CSS custom properties you defined:
+
     ```ts {7-12}
     /** @type {import('tailwindcss').Config} */
 
@@ -80,9 +102,21 @@ import { Steps } from '@astrojs/starlight/components';
     }
     ```
 
+    This configuration extends Tailwind's default color palette with your custom theme colors, allowing you to use classes like `text-primary` or `bg-secondary` throughout your project.
+
 </Steps>
 
 ## Usage
 
+With this setup, you can now use Tailwind classes that reference your theme colors (e.g., `text-primary`, `bg-secondary`) in your HTML and components. The colors will automatically update when you switch themes by changing the `data-theme` attribute on the `html` element.
+
 :::note
-See [Dynamic theme switching](/design-engineering/tailwind/dynamic-theme-switching) to know more about how to switch between these multiple themes automatically or based on user action.
+For information on how to implement dynamic theme switching in your application using user-triggered theme changes, refer to the [Dynamic theme switching](/design-engineering/tailwind/dynamic-theme-switching) guide.
+:::
+
+## Best Practices
+
+- Keep your base theme in `global.css` as the default fallback.
+- Use semantic color names (e.g., `primary`, `secondary`) rather than specific color names to make theme switching more intuitive.
+- Consider creating a dark mode variant for each theme for comprehensive theming support.
+- Test your themes thoroughly to ensure good contrast and accessibility across all color combinations.

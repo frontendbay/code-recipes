@@ -51,6 +51,18 @@ code {
 	filter: drop-shadow(0 0 3rem var(--overlay-blurple));
 }
 
+.sl-markdown-content tr td:first-child {
+	min-width: 9rem
+}
+
+.sl-markdown-content #key-topics + table tr td:first-child {
+	min-width: auto
+}
+
+.sl-markdown-content #key-topics + table tr td:nth-child(2) {
+	min-width: 9rem
+}
+
 @media (min-width: 72rem) {
   main > .content-panel .sl-container {
       margin: 0 auto;
