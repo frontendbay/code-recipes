@@ -16,12 +16,16 @@ import unitTestingSidebar from "./src/config/unit-testing-sidebar";
 export default defineConfig({
   integrations: [
     starlight({
-      title: "Frontend Recipes",
+      title: "",
       expressiveCode: {
         plugins: [pluginLineNumbers()],
         defaultProps: {
           showLineNumbers: true,
         },
+      },
+      logo: {
+        light: "./src/assets/logo-light.svg",
+        dark: "./src/assets/logo-dark.svg",
       },
       plugins: [starlightImageZoom({ showCaptions: false })],
       social: socialLinks,
