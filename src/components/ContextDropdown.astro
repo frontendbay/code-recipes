@@ -7,15 +7,16 @@ interface Props {
 }
 
 const { options, defaultValue } = Astro.props;
-const buttonLabel = sidebarContext.find(item => item.name === defaultValue)?.title
+const button = sidebarContext.find(item => item.name === defaultValue)
 
-const dropdownButtonBase = "w-full focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-between"
+const dropdownButtonBase = "w-full focus:outline-none font-medium rounded-lg text-sm px-4 py-3 text-center inline-flex items-center justify-between"
 // const dropdownButtonLight = "text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300"
 // const dropdownButtonDark = "dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
 
-const dropdownTextBase = "block px-4 py-2 no-underline capitalize font-medium"
-const dropdownTextDark = "hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white dark:text-gray-200"
-const dropdownTextLight = "text-gray-800"
+const dropdownTextBase = "block px-4 py-3 no-underline capitalize font-medium"
+const dropdownTextDark = "hover:bg-gray-100 dark:hover:bg-gray-600"
+const LinkTextDark = "dark:hover:text-white dark:text-gray-200"
+const LinkTextLight = "text-gray-800"
 ---
 
 <script>
@@ -53,18 +54,24 @@ const dropdownTextLight = "text-gray-800"
 <div id="dropdown-wrapper" class="relative pl-2">
   <!-- Dropdown trigger button -->
   <button id="dropdown-button" type="button" data-dropdown-toggle="dropdown" class:list={[dropdownButtonBase]}>
-    <span class="capitalize">{buttonLabel}</span>
+    <div class="flex items-center gap-3">
+      <img src={button?.icon} alt="tehcnology icon" class="size-7" />
+      <span class="capitalize font-bold">{button?.title}</span>
+    </div>
     <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
     </svg>
   </button>
 
   <!-- Dropdown menu -->
-  <div id="dropdown" class="hidden z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute top-10 left-2 right-0">
+  <div id="dropdown" class="hidden z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute top-14 left-2 right-0">
     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200 list-none p-0 w-full" aria-labelledby="dropdown">
       {options.map((option: any) => (
         <li>
-          <a href={option.href} class:list={[dropdownTextBase, dropdownTextDark, dropdownTextLight]}>{option.title}</a>
+          <a href={option.href} class="flex items-center gap-3" class:list={[dropdownTextBase, dropdownTextDark, LinkTextDark, LinkTextLight]}>
+            <img src={option.icon} alt="tehcnology icon" class="size-7" />
+            <span>{option.title}</span>
+          </a>
         </li>
       ))}
     </ul>

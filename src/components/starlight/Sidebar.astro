@@ -2,7 +2,7 @@
 import Default from '@astrojs/starlight/components/Sidebar.astro';
 import type { Props } from '@astrojs/starlight/props';
 import sidebarContext from "../../config/sidebar-context";
-import Dropdown from '../Dropdown.astro';
+import ContextDropdown from '../ContextDropdown.astro';
 
 const contextList = sidebarContext.map(item => item.name);
 const currentContext =  Astro.props.slug?.split("/")[0];
@@ -21,5 +21,5 @@ Astro.props.sidebar = Astro.props.sidebar
   ));
 ---
 
-<Dropdown options={sidebarContext} defaultValue={defaultValue} />
+<ContextDropdown options={sidebarContext} defaultValue={defaultValue} />
 <Default {...Astro.props}><slot /></Default>
